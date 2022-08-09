@@ -49,7 +49,7 @@ const sendToWebhook = async (subreddit: string) => {
 		title,
 		description: spoiler
 			? "This post is a spoiler"
-			: selftext.substring(0, 50),
+			: (selftext.length >= 200 ? selftext.substring(0, 200) + "..." : selftext),
 		url: `https://reddit.com${permalink}`,
 		color: 0xf78316,
 		fields: [
@@ -90,7 +90,6 @@ const checkLastPost = async (subreddit: string, id: string) => {
 	} catch (e: any) {
 		if (e.code === "ENOENT") {
 			fetchSubredditData(subreddit).then(async (data) => {
-				console.log(data);
 				sendToWebhook(subreddit);
 				writeFileSync(
 					"./data/subreddits.json",

@@ -217,5 +217,5 @@ dist
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,macos,linux,node
 
 *.dev.*
-
+config.json
 subreddits.json
