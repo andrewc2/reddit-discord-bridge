@@ -1,0 +1,11 @@
+/dist
+/.github
+/.git
+*.dev.*
+*.git
+*.gitignore
+*.gitmodules
+/data/subreddits.json
+/node_modules
+/testdata
+.editorconfig

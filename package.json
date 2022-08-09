@@ -6,7 +6,7 @@
 	"type": "module",
 	"main": "src/index.js",
 	"engines": {
-		"node": "18.4.0",
+		"node": "18.7.0",
 		"pnpm": "7.9.0"
 	},
 	"scripts": {

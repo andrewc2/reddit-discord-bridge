@@ -219,3 +219,5 @@ dist
 *.dev.*
 config.json
 subreddits.json
+
+/testdata

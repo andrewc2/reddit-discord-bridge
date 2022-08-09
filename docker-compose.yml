@@ -1,0 +1,7 @@
+version: "3"
+
+services:
+    rdb:
+        image: rdb
+        volumes:
+            - ./testdata:/app/data
