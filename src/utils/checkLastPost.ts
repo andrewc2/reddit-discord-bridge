@@ -1,23 +1,22 @@
-import { readFileSync, writeFileSync } from "fs";
-import fetchSubredditData from "./fetchSubredditData";
-import sendToWebhook from "./sendToWebhook";
+import fetchSubredditData from './fetchSubredditData.ts';
+import sendToWebhook from './sendToWebhook.ts';
 
 const checkLastPost = async (subreddit: string, id: string) => {
 	try {
-		const data = await readFileSync("./data/subreddits.json", "utf8");
+		const data = await Deno.readTextFile('./data/subreddits.json');
+		console.log(data);
 
-		let parsed: Map<string, string> = JSON.parse(data);
+		const parsed: Map<string, string> = JSON.parse(data);
 
 		if (parsed.get(subreddit) === id) return true;
 		else return false;
 	} catch (e: any) {
-		if (e.code === "ENOENT") {
-			fetchSubredditData(subreddit).then(async (data) => {
+		if (e.code === 'ENOENT') {
+			fetchSubredditData(subreddit).then((data: { id: string }) => {
 				sendToWebhook(subreddit);
-				writeFileSync(
-					"./data/subreddits.json",
+				Deno.writeTextFile(
+					'./data/subreddits.json',
 					`{"${subreddit}": "${data.id}"}`,
-					"utf8"
 				);
 			});
 		}

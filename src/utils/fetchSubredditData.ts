@@ -1,7 +1,8 @@
 const fetchSubredditData = async (subreddit: string) => {
 	const response = await fetch(
-		`https://www.reddit.com/r/${subreddit}/new.json`
+		`https://www.reddit.com/r/${subreddit}/new.json`,
 	);
+	console.log(response);
 	const json: {
 		kind: string;
 		data: {
