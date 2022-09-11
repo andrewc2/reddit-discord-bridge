@@ -14,12 +14,14 @@ const needToPost = async (subreddit: string, id: string) => {
 	} catch (e: any) {
 		console.error(e);
 		if (e.code === "ENOENT") {
-			fetchSubredditData(subreddit).then((data: { id: string }) => {
-				sendToWebhook(subreddit);
-				Deno.writeTextFile(
-					"./data/subreddits.json",
-					`{"${subreddit}": "${data.id}"}`
-				);
+			fetchSubredditData(subreddit).then((data: { id: string } | undefined) => {
+				if (data) {
+					sendToWebhook(subreddit);
+					Deno.writeTextFile(
+						"./data/subreddits.json",
+						`{"${subreddit}": "${data.id}"}`
+					);
+				}
 			});
 		}
 		return false
