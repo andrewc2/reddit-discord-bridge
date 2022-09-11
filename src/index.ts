@@ -7,21 +7,9 @@ import sendToWebhook from "./utils/sendToWebhook.ts";
 console.info(`Version: ${appJson.version}`);
 
 fetchSubredditData(config()[0].subreddit_name).then(async (data) => {
-	if (await needToPost(config()[0].subreddit_name, data.id)) {
-		console.log(`New post found!`);
-		await sendToWebhook(config()[0].subreddit_name);
-		Deno.writeTextFileSync(
-			"./data/subreddits.json",
-			JSON.stringify({
-				[config()[0].subreddit_name]: data.id,
-			})
-		);
-	}
-});
-
-setInterval(() => {
-	fetchSubredditData(config()[0].subreddit_name).then(async (data) => {
+	if (data) {
 		if (await needToPost(config()[0].subreddit_name, data.id)) {
+			console.log(`New post found!`);
 			await sendToWebhook(config()[0].subreddit_name);
 			Deno.writeTextFileSync(
 				"./data/subreddits.json",
@@ -29,6 +17,22 @@ setInterval(() => {
 					[config()[0].subreddit_name]: data.id,
 				})
 			);
+		}
+	}
+});
+
+setInterval(() => {
+	fetchSubredditData(config()[0].subreddit_name).then(async (data) => {
+		if (data) {
+			if (await needToPost(config()[0].subreddit_name, data.id)) {
+				await sendToWebhook(config()[0].subreddit_name);
+				Deno.writeTextFileSync(
+					"./data/subreddits.json",
+					JSON.stringify({
+						[config()[0].subreddit_name]: data.id,
+					})
+				);
+			}
 		}
 	});
 }, 60000);
