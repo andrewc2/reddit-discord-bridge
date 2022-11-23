@@ -7,8 +7,8 @@ const sendToWebhook = async (subreddit: string) => {
 	if (data) {
 		const embed = {
 			title:
-				data.title.length >= 50
-					? data.title.substring(0, 50) + "..."
+				data.title.length >= 100
+					? data.title.substring(0, 100) + "..."
 					: data.title,
 			description: data.spoiler
 				? "This post is a spoiler"
@@ -16,20 +16,10 @@ const sendToWebhook = async (subreddit: string) => {
 				? data.selftext.substring(0, 200) + "..."
 				: data.selftext,
 			url: `https://reddit.com${data.permalink}`,
-			color: 0xf78316,
-			fields: [
-				{
-					name: "Post Author",
-					value: data.author,
-				},
-				{
-					name: "Post URL",
-					value: `https://reddit.com${data.permalink}`,
-				},
-			],
+			color: 15158332,
 			author: {
-				name: "Reddit-Discord Bridge",
-				url: "https://rdb.ludoviko.ch"
+				name: `Post from r/RandomActsofSwift by: ${data.author}`,
+				url: `https://reddit.com/u/${data.permalink}`
 			}
 		};
 
